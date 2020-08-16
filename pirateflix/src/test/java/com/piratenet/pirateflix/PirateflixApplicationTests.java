@@ -8,6 +8,6 @@ class PirateflixApplicationTests {
 
 	@Test
 	void contextLoads() {
-	}
 
+	}
 }

@@ -10,9 +10,8 @@ import java.util.Optional;
 
 @SpringBootTest
 public class HomeTest {
-
     @Test
-    public void homeTest(){
+    public void homeTest() {
         Assertions.assertEquals(ResponseEntity.of(Optional.of("Hello")).getBody(), new HomeController().homeTest().getBody());
     }
 }
