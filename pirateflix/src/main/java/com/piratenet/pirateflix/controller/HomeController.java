@@ -10,7 +10,7 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class HomeController {
 
-    @GetMapping
+    @GetMapping("/helloworld")
     public ResponseEntity<String> homeTest(){
         return ResponseEntity.of(Optional.of("Hello"));
     }
