@@ -1,3 +1,7 @@
 import React from 'react';
+import {connect} from 'dva';
+import helloworld from "@/models/helloworld";
 
-export default connect()(({dispatch}) => (<div>{dispatch({type: 'helloworld/getHelloWorld'})}oi</div>) )
+export default connect(state=> ({helloworld: state.helloworld.helloworld}))(({helloworld}) => {
+  return (<div>{helloworld}</div>);
+})

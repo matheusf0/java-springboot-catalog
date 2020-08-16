@@ -48,12 +48,12 @@ export default defineConfig({
       icon: 'smile',
       component: './Welcome',
       routes: [
-              {
-                path: '/welcome/helloworld',
-                name: 'sub-page',
-                icon: 'smile',
-                component: '../components/Helloworld',
-              }]
+        {
+          path: '/welcome/helloworld',
+          name: 'hello-world',
+          icon: 'smile',
+          component: '../components/Helloworld/index',
+        }]
     },
     {
       path: '/admin',
@@ -94,7 +94,7 @@ export default defineConfig({
   ignoreMomentLocale: true,
   proxy:{
     '/api': {
-      target: 'localhost:8080/api',
+      target: 'http://localhost:8080/api/',
       changeOrigin: true,
       pathRewrite: {
       '^/api':''
