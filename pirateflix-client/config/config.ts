@@ -17,7 +17,6 @@ export default defineConfig({
     siderWidth: 208,
   },
   locale: {
-    // default zh-CN
     default: 'pt-BR',
     // default true, when it is true, will use `navigator.language` overwrite default
     antd: true,
