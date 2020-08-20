@@ -1,7 +1,7 @@
 package com.piratenet.pirateflix.service;
 
 import com.piratenet.pirateflix.controller.model.RegisterRequest;
-import com.piratenet.pirateflix.controller.model.UserDto;
+import com.piratenet.pirateflix.controller.model.LoginDto;
 import com.piratenet.pirateflix.entity.User;
 import com.piratenet.pirateflix.repository.UserRepository;
 import com.piratenet.pirateflix.security.JwtProvider;
@@ -35,19 +35,19 @@ public class AuthService {
 
     public void signup(RegisterRequest registerRequest) {
         User user = new User();
-        user.setUserName(registerRequest.getUsername());
+        user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(encodePassword(registerRequest.getPassword()));
-
         userRepository.save(user);
     }
 
-    private String encodePassword(String password){
+    public String encodePassword(String password){
         return passwordEncoder.encode(password);
     }
 
-    public AuthenticationResponse login(UserDto loginRequest) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+    public AuthenticationResponse login(LoginDto loginRequest) {
+        Authentication authenticate = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                 loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String authenticationToken = jwtProvider.generateToken(authenticate);
