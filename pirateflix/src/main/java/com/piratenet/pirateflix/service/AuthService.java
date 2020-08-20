@@ -1,7 +1,7 @@
 package com.piratenet.pirateflix.service;
 
-import com.piratenet.pirateflix.controller.dto.RegisterRequest;
-import com.piratenet.pirateflix.controller.dto.UserDto;
+import com.piratenet.pirateflix.controller.model.RegisterRequest;
+import com.piratenet.pirateflix.controller.model.UserDto;
 import com.piratenet.pirateflix.entity.User;
 import com.piratenet.pirateflix.repository.UserRepository;
 import com.piratenet.pirateflix.security.JwtProvider;
@@ -25,7 +25,8 @@ public class AuthService {
 
     private final JwtProvider jwtProvider;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
+    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder,
+                       AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -37,6 +38,7 @@ public class AuthService {
         user.setUserName(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(encodePassword(registerRequest.getPassword()));
+
         userRepository.save(user);
     }
 
@@ -44,15 +46,18 @@ public class AuthService {
         return passwordEncoder.encode(password);
     }
 
-    public String login(UserDto loginRequest) {
+    public AuthenticationResponse login(UserDto loginRequest) {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                 loginRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication((authenticate));
-        return jwtProvider.generateToken(authenticate);
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        String authenticationToken = jwtProvider.generateToken(authenticate);
+        return new AuthenticationResponse(authenticationToken, loginRequest.getUsername());
     }
 
     public Optional<org.springframework.security.core.userdetails.User> getCurrentUser() {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return null;
+        org.springframework.security.core.userdetails.User principal =
+                (org.springframework.security.core.userdetails.User) SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal();
+        return Optional.of(principal);
     }
 }

@@ -1,8 +1,9 @@
 package com.piratenet.pirateflix.controller;
 
-import com.piratenet.pirateflix.controller.dto.RegisterRequest;
-import com.piratenet.pirateflix.controller.dto.UserDto;
+import com.piratenet.pirateflix.controller.model.RegisterRequest;
+import com.piratenet.pirateflix.controller.model.UserDto;
 import com.piratenet.pirateflix.service.AuthService;
+import com.piratenet.pirateflix.service.AuthenticationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserDto user){
+    public AuthenticationResponse login(@RequestBody UserDto user){
         return authService.login(user);
     }
 }
